@@ -26,6 +26,7 @@ echo "$SWARM_SERVICE_IPs"
 
 HOSTNAME=`hostname`
 echo "My Hostname: '${HOSTNAME}'"
+dig ${HOSTNAME}
 MY_IP=$(dig ${HOSTNAME} +short)
 echo "My IP: '${MY_IP}'"
 
