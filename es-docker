@@ -15,20 +15,21 @@ if [ -z ${SERVICE_NAME} ];then
     exit 3
 fi
 
-# Delay to let hostname to be published to swarm DNS service
-sleep 15
+HOSTNAME=`hostname`
+echo "My hostname: '${HOSTNAME}'"
+MY_IP=""
+while [ -z "${MY_IP}" ]; do
+  sleep 1
+  dig ${HOSTNAME}
+  MY_IP=$(dig ${HOSTNAME} +short)
+  echo "My IP: '${MY_IP}'"
+done
 
 echo "Discovering other nodes in cluster..."
 # Docker swarm's DNS resolves special hostname "tasks.<service_name" to IP addresses of all containers inside overlay network
 SWARM_SERVICE_IPs=$(dig tasks.${SERVICE_NAME} +short)
 echo "Nodes of service ${SERVICE_NAME}:"
 echo "$SWARM_SERVICE_IPs"
-
-HOSTNAME=`hostname`
-echo "My Hostname: '${HOSTNAME}'"
-dig ${HOSTNAME}
-MY_IP=$(dig ${HOSTNAME} +short)
-echo "My IP: '${MY_IP}'"
 
 OTHER_NODES=""
 
