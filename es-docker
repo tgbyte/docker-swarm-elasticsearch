@@ -17,13 +17,8 @@ fi
 
 HOSTNAME=`hostname`
 echo "My hostname: '${HOSTNAME}'"
-MY_IP=""
-while [ -z "${MY_IP}" ]; do
-  sleep 1
-  dig ${HOSTNAME}
-  MY_IP=$(dig ${HOSTNAME} +short)
-  echo "My IP: '${MY_IP}'"
-done
+MY_IP=$(getent ahostsv4 ${HOSTNAME} | cut -d' ' -f1 | sort -u)
+echo "My IP: ${MY_IP}"
 
 echo "Discovering other nodes in cluster..."
 # Docker swarm's DNS resolves special hostname "tasks.<service_name" to IP addresses of all containers inside overlay network
