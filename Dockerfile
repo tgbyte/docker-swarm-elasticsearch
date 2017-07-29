@@ -4,4 +4,5 @@ USER root
 
 RUN yum install -y bind-utils
 COPY es-docker /usr/share/elasticsearch/bin/
+COPY healthcheck /usr/share/elasticsearch/bin/
 USER elasticsearch

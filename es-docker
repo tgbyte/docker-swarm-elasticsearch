@@ -20,16 +20,16 @@ echo "My hostname: ${HOSTNAME}"
 MY_IP=$(getent ahostsv4 ${HOSTNAME} | cut -d' ' -f1 | sort -u)
 echo "My IP: ${MY_IP}"
 
+sleep $[ ( $RANDOM % 20 ) + 1 ]s
+
 echo "Discovering other nodes in cluster..."
 # Docker swarm's DNS resolves special hostname "tasks.<service_name" to IP addresses of all containers inside overlay network
 
 SWARM_SERVICE_IPs=""
 while [ -z "${SWARM_SERVICE_IPs}" ]; do
-  dig tasks.${SERVICE_NAME}
   SWARM_SERVICE_IPs=$(dig tasks.${SERVICE_NAME} +short)
-  echo "Nodes of service ${SERVICE_NAME}:"
-  echo "$SWARM_SERVICE_IPs"
-  sleep 5
+  echo "Nodes of service ${SERVICE_NAME}:\n$SWARM_SERVICE_IPs"
+  sleep 1
 done
 
 OTHER_NODES=""
