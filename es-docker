@@ -22,9 +22,14 @@ echo "My IP: ${MY_IP}"
 
 echo "Discovering other nodes in cluster..."
 # Docker swarm's DNS resolves special hostname "tasks.<service_name" to IP addresses of all containers inside overlay network
-SWARM_SERVICE_IPs=$(dig tasks.${SERVICE_NAME} +short)
-echo "Nodes of service ${SERVICE_NAME}:"
-echo "$SWARM_SERVICE_IPs"
+
+SWARM_SERVICE_IPs=""
+while [ -z "${SWARM_SERVICE_IPs}" ]; do
+  SWARM_SERVICE_IPs=$(dig tasks.${SERVICE_NAME} +short)
+  echo "Nodes of service ${SERVICE_NAME}:"
+  echo "$SWARM_SERVICE_IPs"
+  sleep 5
+done
 
 OTHER_NODES=""
 
