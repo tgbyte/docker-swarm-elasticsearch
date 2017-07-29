@@ -16,7 +16,7 @@ if [ -z ${SERVICE_NAME} ];then
 fi
 
 HOSTNAME=`hostname`
-echo "My hostname: '${HOSTNAME}'"
+echo "My hostname: ${HOSTNAME}"
 MY_IP=$(getent ahostsv4 ${HOSTNAME} | cut -d' ' -f1 | sort -u)
 echo "My IP: ${MY_IP}"
 
