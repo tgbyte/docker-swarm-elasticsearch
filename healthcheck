@@ -1,6 +1,6 @@
 #/bin/bash
 SWARM_SERVICE_IPs=$(dig tasks.${SERVICE_NAME} +short)
 if [ -n "${SWARM_SERVICE_IPs}" ]; then
-  curl -s --fail http://localhost:9200/ || exit 1
+  curl -s --fail http://$(hostname):9200/ || exit 1
 fi
 exit 0
