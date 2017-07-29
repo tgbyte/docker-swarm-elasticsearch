@@ -32,15 +32,15 @@ while [ -z "${SWARM_SERVICE_IPs}" ]; do
   sleep 1
 done
 
-OTHER_NODES=""
-
-for NODE_IP in $SWARM_SERVICE_IPs
-do
-    if [ "${NODE_IP}" == "${MY_IP}" ];then
-        continue;
-    fi
-    OTHER_NODES="${OTHER_NODES}${NODE_IP},"
-done
+#OTHER_NODES=""
+#
+#for NODE_IP in $SWARM_SERVICE_IPs
+#do
+#    if [ "${NODE_IP}" == "${MY_IP}" ];then
+#        continue;
+#    fi
+#    OTHER_NODES="${OTHER_NODES}${NODE_IP},"
+#done
 
 if [ -n "${MY_IP}" ];then
     echo "Setting network.publish_host=${MY_IP}"
@@ -50,13 +50,9 @@ else
     exit 1
 fi
 
-if [ -n "$OTHER_NODES" ];then
-    echo "Setting discovery.zen.ping.unicast.hosts=${OTHER_NODES%,}"
-    es_opt="-Ediscovery.zen.ping.unicast.hosts=${OTHER_NODES%,}"
-    es_opts+=" ${es_opt}"
-else
-    echo "There is no another nodes in cluster. I am alone!"
-fi
+echo "Setting discovery.zen.ping.unicast.hosts=tasks.${SERVICE_NAME}"
+es_opt="-Ediscovery.zen.ping.unicast.hosts=tasks.${SERVICE_NAME}"
+es_opts+=" ${es_opt}"
 
 #Configuring elasticsearch using environment variables
 while IFS='=' read -r envvar_key envvar_value
