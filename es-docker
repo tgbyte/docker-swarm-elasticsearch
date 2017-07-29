@@ -25,6 +25,7 @@ echo "Discovering other nodes in cluster..."
 
 SWARM_SERVICE_IPs=""
 while [ -z "${SWARM_SERVICE_IPs}" ]; do
+  dig tasks.${SERVICE_NAME}
   SWARM_SERVICE_IPs=$(dig tasks.${SERVICE_NAME} +short)
   echo "Nodes of service ${SERVICE_NAME}:"
   echo "$SWARM_SERVICE_IPs"
