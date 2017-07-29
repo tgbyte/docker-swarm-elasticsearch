@@ -32,16 +32,6 @@ while [ -z "${SWARM_SERVICE_IPs}" ]; do
   sleep 1
 done
 
-#OTHER_NODES=""
-#
-#for NODE_IP in $SWARM_SERVICE_IPs
-#do
-#    if [ "${NODE_IP}" == "${MY_IP}" ];then
-#        continue;
-#    fi
-#    OTHER_NODES="${OTHER_NODES}${NODE_IP},"
-#done
-
 if [ -n "${MY_IP}" ];then
     echo "Setting network.publish_host=${MY_IP}"
     es_opts+=" -Enetwork.host=${MY_IP}"
